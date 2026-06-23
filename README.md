@@ -2,7 +2,7 @@
 
 Simulation code and examples for Path-Complete Closure Certificates (PC-CCs) applied to nonlinear switched systems.
 
-![PC-CC Diagram](pccc_diagram.pdf)
+![PC-CC Diagram](pccc_diagram.png)
 
 This repository currently includes:
 
