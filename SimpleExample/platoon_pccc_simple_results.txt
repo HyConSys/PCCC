@@ -1,0 +1,16 @@
+poly deg: 2
+status: OPTIMAL
+C_{1,1}(x,y): -71.3625 + 106.3258*y[2] - 104.0742*y[1]
+C_{1,1} Monomials: DynamicPolynomials.Monomial{DynamicPolynomials.Commutative{DynamicPolynomials.CreationOrder}, Graded{LexOrder}}[1, y₂, y₁, x₂, x₁, y₂², y₁y₂, y₁², x₂y₂, x₂y₁, x₂², x₁y₂, x₁y₁, x₁x₂, x₁²]
+C_{1,1} Coefficients: [-71.3625, 106.3258, -104.0742, -0.0, 0.0, -0.0, 0.0, -0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.0, -0.0]
+C_{1,2}(x,y): -68.7585 + 101.7469*y[2] - 99.4713*y[1]
+C_{1,2} Monomials: DynamicPolynomials.Monomial{DynamicPolynomials.Commutative{DynamicPolynomials.CreationOrder}, Graded{LexOrder}}[1, y₂, y₁, x₂, x₁, y₂², y₁y₂, y₁², x₂y₂, x₂y₁, x₂², x₁y₂, x₁y₁, x₁x₂, x₁²]
+C_{1,2} Coefficients: [-68.7585, 101.7469, -99.4713, -0.0, 0.0, -0.0, 0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 0.0, 0.0, -0.0]
+C_{2,1}(x,y): -71.3625 + 106.3258*y[2] - 104.0742*y[1]
+C_{2,1} Monomials: DynamicPolynomials.Monomial{DynamicPolynomials.Commutative{DynamicPolynomials.CreationOrder}, Graded{LexOrder}}[1, y₂, y₁, x₂, x₁, y₂², y₁y₂, y₁², x₂y₂, x₂y₁, x₂², x₁y₂, x₁y₁, x₁x₂, x₁²]
+C_{2,1} Coefficients: [-71.3625, 106.3258, -104.0742, -0.0, 0.0, -0.0, 0.0, -0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.0, -0.0]
+C_{2,2}(x,y): -68.7585 + 101.7469*y[2] - 99.4713*y[1]
+C_{2,2} Monomials: DynamicPolynomials.Monomial{DynamicPolynomials.Commutative{DynamicPolynomials.CreationOrder}, Graded{LexOrder}}[1, y₂, y₁, x₂, x₁, y₂², y₁y₂, y₁², x₂y₂, x₂y₁, x₂², x₁y₂, x₁y₁, x₁x₂, x₁²]
+C_{2,2} Coefficients: [-68.7585, 101.7469, -99.4713, -0.0, 0.0, -0.0, 0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 0.0, -0.0, -0.0]
+time: 25.644891023635864
+

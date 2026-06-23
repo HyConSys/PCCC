@@ -1,0 +1,7 @@
+poly deg: 2
+status: OPTIMAL
+C_{1,1}(x,y): -17.8148 + 35.8671*y[2] - 35.5046*y[1]
+C_{1,1} Monomials: DynamicPolynomials.Monomial{DynamicPolynomials.Commutative{DynamicPolynomials.CreationOrder}, Graded{LexOrder}}[1, y₂, y₁, x₂, x₁, y₂², y₁y₂, y₁², x₂y₂, x₂y₁, x₂², x₁y₂, x₁y₁, x₁x₂, x₁²]
+C_{1,1} Coefficients: [-17.8148, 35.8671, -35.5046, -0.0, 0.0, -0.0, 0.0, -0.0, -0.0, -0.0, -0.0, 0.0, -0.0, 0.0, -0.0]
+time: 25.55423593521118
+
