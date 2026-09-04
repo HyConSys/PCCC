@@ -45,12 +45,12 @@ Publication acceptance policy for numerical SOS blocks:
 
 ## Repository layout
 
-- `ComplexExample/` â€” nonlinear platoon model, normalized-coordinate equivalence, four-visit witness, and reachabilityâ€“rank SOS verifier.
-- `GraphIndexedExample/` â€” dimension-scalable two-node original-PC-CC benchmark and full matched convex-projection comparison.
-- `ScalableExample/` â€” auxiliary scalar exact-arithmetic kernel used by the graph-indexed benchmark; it is not a separate headline experiment in the paper.
-- `scripts/` â€” deterministic analytical checks and trace generation.
-- `tests/` â€” solver-free regression and repository-integrity tests.
-- `results/` â€” deterministic generated evidence and the archived licensed SOS transcript.
-- `REPRODUCIBILITY.md` â€” reproduction instructions and environment metadata.
+- `ComplexExample/` -- nonlinear platoon model, normalized-coordinate equivalence, four-visit witness, and reachabilityâ€“rank SOS verifier.
+- `GraphIndexedExample/` -- dimension-scalable two-node original-PC-CC benchmark and full matched convex-projection comparison.
+- `ScalableExample/` -- auxiliary scalar exact-arithmetic kernel used by the graph-indexed benchmark; it is not a separate headline experiment in the paper.
+- `scripts/` -- deterministic analytical checks and trace generation.
+- `tests/` -- solver-free regression and repository-integrity tests.
+- `results/` -- deterministic generated evidence and the archived licensed SOS transcript.
+- `REPRODUCIBILITY.md` -- reproduction instructions and environment metadata.
 
 Public repository: https://github.com/HyConSys/PCCC
