@@ -45,7 +45,7 @@ Publication acceptance policy for numerical SOS blocks:
 
 ## Repository layout
 
-- `ComplexExample/` -- nonlinear platoon model, normalized-coordinate equivalence, four-visit witness, and reachabilityâ€“rank SOS verifier.
+- `ComplexExample/` -- nonlinear platoon model, normalized-coordinate equivalence, four-visit witness, and reachability-rank SOS verifier.
 - `GraphIndexedExample/` -- dimension-scalable two-node original-PC-CC benchmark and full matched convex-projection comparison.
 - `ScalableExample/` -- auxiliary scalar exact-arithmetic kernel used by the graph-indexed benchmark; it is not a separate headline experiment in the paper.
 - `scripts/` -- deterministic analytical checks and trace generation.
