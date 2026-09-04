@@ -1,66 +1,31 @@
-# Dimension-scalable networked-coordination benchmark
+# Auxiliary scalar exact-arithmetic kernel
 
-**Lead author and repository maintainer:** Reza Iraji  
-**Paper coauthors:** Felipe Galarza-Jimenez and Majid Zamani
+This directory contains the scalar degree-two construction used as an algebraic kernel for the paper's **two-node graph-indexed dimension-scalable benchmark**.
 
-
-This example is the recommended replacement for the unsupported degree-6 platoon claim.
-
-## Model
-
-For any state dimension `n >= 2`, let `x=(z,u)`, where `z` is a normalized coordination-progress variable and the components of `u` are disagreement modes of a networked team. Let
+The headline scalable experiment in the revised manuscript is `GraphIndexedExample/`, reported for dimensions `n=4,8,16`. The scalar routines here are retained because they provide reusable exact checks for the common polynomial
 
 ```math
-\mathcal X=[0,1]\times[-1,1]^{n-1},\qquad
-q(u)=\frac{1}{n-1}\sum_{i=2}^n u_i^2.
+C_0(a,b)=500\left[(b-a)\left(\frac65-b\right)-\frac1{20}(1-a)\right]
 ```
 
-The two polynomial modes are
+and its PC-CC3 residual.
 
-```math
-z^+=z+(1-z)r_\sigma(u),
+The exact PC-CC3 margin is
+
+```text
+475/3904 > 0
 ```
 
-```math
-r_1(u)=\frac25+\frac1{10}q(u),\qquad
-r_2(u)=\frac3{10}+\frac2{25}q(u),
+at
+
+```text
+(a*,b*,c*)=(0,19/20,2243/2440).
 ```
 
-and `u_i^+=3u_i/5` in mode 1, `u_i^+=-7u_i/10` in mode 2. The nonlinear progress coordinate is coupled to all disagreement states through their normalized energy `q(u)`. The two modes model different communication regimes: each contracts the disagreement coordinates at a different rate and changes how disagreement affects task progress.
-
-Use
-
-```math
-\mathcal X_0=\{x:0\le z\le1/20\},\qquad
-\mathcal X_{\rm vf}=\{x:4/5\le z\le19/20\}.
-```
-
-## Four visits under arbitrary switching
-
-Every mode satisfies `r_\sigma>=3/10`, so `z` is monotone. The slow execution uses mode 2, `u=0`, and `z(0)=0`; it visits `\mathcal X_{\rm vf}` at times 5, 6, 7, and 8 and exits at time 9. After any first visit, four transitions force `z>19/20`, so four is the global maximum.
-
-## Explicit relational degree-2 certificate
-
-For the one-node path-complete graph,
-
-```math
-C(x,y)=500\left[(y_1-x_1)\left(\frac65-y_1\right)-\frac1{20}(1-x_1)\right].
-```
-
-The polynomial has five nonzero monomials and includes `x_1y_1`. Its degree and support are independent of `n`.
-
-PC-CC1 and PC-CC2 follow from direct nonnegative factorizations. PC-CC3 is certified with fixed multipliers
-
-```math
-s^{(2)}=1,\qquad s^{(3,a)}=0,\qquad s^{(3,b)}=41/20,
-```
-
-and the exact product-domain margin is `475/3904`.
-
-Run the exact check with
+For the reviewer-facing graph-indexed result and the full matched one-node convex-projection comparison, use:
 
 ```bash
-julia ScalableExample/explicit_degree2_certificate.jl 8
+julia GraphIndexedExample/explicit_graph_certificate.jl 8
 ```
 
-or use `python -m unittest discover -s tests -v`. An optional TSSOS/MOSEK verification is provided in `sos_verify_degree2.jl`. It uses the exact aggregate abstraction `q(u) in [0,1]`, so the SDP size is independent of the ambient state dimension.
+No separate SOS solver run is required for the scalable benchmark; the paper reports exact rational/analytic verification.

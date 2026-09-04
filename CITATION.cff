@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: >-
-  Please cite the PC-CC paper. Reza Iraji is the maintainer of this
-  reviewer-facing reproducibility package.
-title: "Path-Complete Closure Certificates: Reproducibility and Reviewer Evidence Package"
+  Please cite the PC-CC paper. Reza Iraji maintains this reviewer-facing
+  reproducibility package.
+title: "Path-Complete Closure Certificates: Reproducibility Package"
 type: software
-version: 0.2.2
-date-released: 2026-08-23
-repository-code: "https://github.com/rezairaji60/PCCC"
+version: 0.3.0
+date-released: 2026-09-04
+repository-code: "https://github.com/HyConSys/PCCC"
 authors:
   - family-names: Iraji
     given-names: Reza

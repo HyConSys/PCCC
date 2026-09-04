@@ -3,6 +3,7 @@
 
 const Q = Rational{BigInt}
 const edges = ((1, 1, 1), (1, 1, 2), (1, 2, 2), (2, 2, 1))
+const ALPHA_SPLIT = 16 // 25
 
 function parse_dimension()
     n = isempty(ARGS) ? 8 : parse(Int, ARGS[1])
@@ -56,12 +57,30 @@ function exact_sos3_minimum()
     return reduce((a, b) -> first(a) <= first(b) ? a : b, candidates)
 end
 
+# Full matched convex-projection family from the submitted manuscript.
+rA(alpha) = 15 * (25 * alpha - 16)
+rB(alpha) = -5 * (119 * alpha^2 - 41 * alpha - 15)
+rBprime(alpha) = 205 - 1190 * alpha
+
+function verify_full_convex_projection_family()
+    @assert rA(0 // 1) == -240
+    @assert rA(ALPHA_SPLIT) == 0
+    @assert rB(ALPHA_SPLIT) == -4689 // 125
+    @assert rBprime(ALPHA_SPLIT) < 0
+    @assert rBprime(1 // 1) < 0
+
+    println("full matched convex-projection one-node family:")
+    println("  r_A(alpha) = 15(25alpha-16) < 0 for alpha < 16/25")
+    println("  r_B(alpha) = -5(119alpha^2-41alpha-15)")
+    println("  r_B'(alpha) = 205-1190alpha < 0 on [16/25,1]")
+    println("  r_B(16/25) = ", rB(ALPHA_SPLIT), " < 0")
+    println("  therefore every alpha in [0,1] violates PC-CC1")
+end
+
 function main()
     n = parse_dimension()
     x = Q[0 for _ in 1:n]
 
-    # Every graph edge maps its source progress coordinate to its destination
-    # coordinate through the same scalar progress dynamics.
     probe = Q[1 // 5, 2 // 5, [1 // 3 for _ in 3:n]...]
     for (p, mode, q) in edges
         successor = step(probe, mode)
@@ -77,13 +96,12 @@ function main()
               if t > 1 && all(4 // 5 <= state[index] <= 19 // 20 for index in 1:2)]
     @assert visits == [5, 6, 7, 8]
 
-    # The four certificate functions are symbolically different projections.
     println("C_11(x,y)=C0(x1,y1)")
     println("C_12(x,y)=C0(x1,y2)")
     println("C_21(x,y)=C0(x2,y1)")
     println("C_22(x,y)=C0(x2,y2)")
 
-    # A one-node certificate using either fixed coordinate fails PC-CC1.
+    # Special cases of the full convex-projection comparison.
     witness1 = Q[1, 0, [0 for _ in 3:n]...]
     witness2 = Q[0, 1, [0 for _ in 3:n]...]
     @assert C0(witness1[1], step(witness1, 2)[1]) == -315
@@ -95,14 +113,16 @@ function main()
 
     margin, minimizer = exact_sos3_minimum()
     @assert margin == 475 // 3904
+    @assert minimizer == (0 // 1, 19 // 20, 2243 // 2440)
     @assert margin > 0
 
     println("dimension = ", n)
     println("finite-visit times = ", visits)
     println("degree = 2 for every C_pq")
     println("fixed multipliers: s2=1, s3a=0, s3b=41/20")
-    println("exact common SOS-3 margin = ", margin, " at ", minimizer)
-    println("matched one-node PC-CC1 witnesses = -315, -240, -105/2")
+    println("exact common PC-CC3 margin = ", margin, " at ", minimizer)
+    println("matched one-node special cases = -315, -240, -105/2")
+    verify_full_convex_projection_family()
 end
 
 main()

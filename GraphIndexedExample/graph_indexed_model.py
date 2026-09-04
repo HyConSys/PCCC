@@ -12,6 +12,7 @@ NODES = (1, 2)
 EDGES = ((1, 1, 1), (1, 1, 2), (1, 2, 2), (2, 2, 1))
 X0_Z = (F(0), F(1, 20))
 XVF_Z = (F(4, 5), F(19, 20))
+ALPHA_SPLIT = F(16, 25)
 
 
 def q_value(state: Sequence[F]) -> F:
@@ -92,3 +93,29 @@ def average_certificate(x: Sequence[F], y: Sequence[F]) -> F:
     xa = (x[0] + x[1]) / 2
     ya = (y[0] + y[1]) / 2
     return scalar_certificate(xa, ya)
+
+
+def convex_projection_residual_a(alpha: F) -> F:
+    """Exact PC-CC1 witness residual for the alpha < 16/25 branch."""
+    return F(15) * (F(25) * alpha - F(16))
+
+
+def convex_projection_residual_b(alpha: F) -> F:
+    """Exact PC-CC1 witness residual for the alpha >= 16/25 branch."""
+    return F(-5) * (F(119) * alpha * alpha - F(41) * alpha - F(15))
+
+
+def convex_projection_residual_b_derivative(alpha: F) -> F:
+    return F(205) - F(1190) * alpha
+
+
+def convex_projection_family_fails(alpha: F) -> bool:
+    if not F(0) <= alpha <= F(1):
+        raise ValueError("alpha must lie in [0,1]")
+    if alpha < ALPHA_SPLIT:
+        return convex_projection_residual_a(alpha) < 0
+    return (
+        convex_projection_residual_b_derivative(ALPHA_SPLIT) < 0
+        and convex_projection_residual_b(ALPHA_SPLIT) < 0
+        and convex_projection_residual_b(alpha) < 0
+    )

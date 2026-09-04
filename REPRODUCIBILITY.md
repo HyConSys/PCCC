@@ -1,16 +1,16 @@
 # Reproducibility protocol
 
-**Lead author and repository maintainer:** Reza Iraji  
-**Paper coauthors:** Felipe Galarza-Jimenez and Majid Zamani
+**Paper authors:** Reza Iraji, Felipe Galarza-Jimenez, and Majid Zamani
+**Repository maintainer:** Reza Iraji
 
-## Evidence hierarchy
+This protocol is aligned with the revised manuscript and the August 28, 2026 response to reviewers.
 
-The revised repository uses two evidence classes.
+## Evidence classes
 
-1. **Exact, solver-free evidence.** Rational-arithmetic scripts and deterministic regression tests establish the four-visit traces, the physical/normalized platoon equivalence, the scalable degree-two certificate, the graph-indexed degree-two certificate, the exact original PC-CC3 margin `475/3904`, and the matched sparse one-node counterexamples.
-2. **Strict licensed SOS evidence.** The four-visit platoon ranked certificate is accepted only when every nontrivial Positivstellensatz/SOS block terminates `OPTIMAL` with primal status `FEASIBLE_POINT`.
+1. **Exact, solver-free evidence.** Rational-arithmetic scripts and deterministic regression tests establish the four-visit traces, physical/normalized platoon equivalence, the dimension-scalable two-node original-PC-CC construction, the exact PC-CC3 margin `475/3904`, and the full matched convex-projection one-node comparison.
+2. **Licensed SOS evidence for the platoon reachabilityâ€“rank criterion.** A reported SOS block is accepted only when the solver returns termination status `OPTIMAL` and primal status `FEASIBLE_POINT`. These are solver-reported statuses and are not mathematical strict-feasibility guarantees.
 
-No `SLOW_PROGRESS`, `ALMOST_OPTIMAL`, rounded iterate, or exploratory failed search is part of the reviewer-facing evidentiary chain.
+No `SLOW_PROGRESS`, `ALMOST_OPTIMAL`, rounded iterate, or exploratory failed search is used as reviewer-facing evidence.
 
 ## Solver-free verification
 
@@ -19,42 +19,32 @@ Run:
 ```bash
 python scripts/run_all_checks.py
 julia ComplexExample/verify_normalized_model.jl
-julia ScalableExample/explicit_degree2_certificate.jl 8
 julia GraphIndexedExample/explicit_graph_certificate.jl 8
 ```
 
-`python scripts/run_all_checks.py` runs the regression suite, compiles Python sources, regenerates deterministic result files in a temporary directory, and compares them against the committed artifacts. The final clean clone completed all 14 tests successfully.
+The Python command runs the regression/integrity suite, compiles Python sources, regenerates deterministic result files in a temporary directory, and compares them with the committed artifacts.
 
 ## Julia environment
 
-Instantiate and precompile the committed environment:
+Instantiate and precompile:
 
 ```bash
 julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
 ```
 
-The final reproduction used:
+Final reproduction environment:
 
-- Julia 1.12.6;
-- TSSOS 1.5.2;
-- MosekTools 0.15.10;
-- Mosek.jl 11.2.0;
-- MOSEK runtime/API 11.2.0.
+- Julia 1.12.6
+- TSSOS 1.5.2
+- MosekTools 0.15.10
+- Mosek.jl 11.2.0
+- MOSEK runtime/API 11.2.0
+- Microsoft Windows 11 Pro 10.0.26200, ARM64
+- Snapdragon(R) X 12-core X1E80100 @ 3.40 GHz
+- 12 physical cores / 12 logical processors
+- approximately 63.5 GiB RAM
 
-`Mosek` is a transitive dependency of `MosekTools`, so `using Mosek` is not guaranteed to work from this project. To query manifest package versions on PowerShell, use:
-
-```powershell
-julia --project=. -e "using Pkg; Pkg.status(; mode=Pkg.PKGMODE_MANIFEST)" |
-    Select-String "Mosek"
-```
-
-To query the MOSEK runtime/API version, use:
-
-```powershell
-julia --project=. -e "using MosekTools; println(MosekTools.Mosek.getversion())"
-```
-
-## Final four-visit platoon SOS verification
+## Four-visit nonlinear platoon
 
 Run:
 
@@ -71,48 +61,85 @@ The verifier keeps the submitted graph
 and the physical nonlinear plant and sets unchanged. It verifies:
 
 - exact reachability preflight and four-visit witness;
-- target-local one-step graph closure;
-- target-local backward propagation with the premise retained as a semialgebraic generator;
-- nonnegative affine rank on the reachable target set;
+- one-step graph closure;
+- target-local backward propagation with the relational premise retained as a semialgebraic generator;
+- nonnegativity of the affine rank on the reachable target set;
 - recurrent-node unit rank descent.
 
-Every nontrivial block in the final clean-clone run terminated `OPTIMAL/FEASIBLE_POINT`. The largest block used Putinar order 4, 8,156 JuMP variables, and 12 top-level constraint objects. The two largest TL-PC2 blocks solved in approximately 0.209 s and 0.210 s in the final reproduction. The four-visit witness exhibited rank drops approximately `2.5840`, `2.1440`, and `1.7878`.
+All 4/4 one-step, 8/8 propagation, rank-nonnegativity, and 2/2 recurrent-node blocks in the archived run report `OPTIMAL/FEASIBLE_POINT`. The six order-2 propagation blocks use 256 variables and 12 top-level constraints. The two order-4 propagation blocks use 8,156 variables and 12 top-level constraints and solve in about 0.20 s each. Rank blocks use at most order 2 and 241 variables. The witness rank drops are approximately `2.5840`, `2.1440`, and `1.7878`.
 
-## Original PC-CC3 benchmark
+This computation verifies the **separate graph-indexed reachabilityâ€“rank sufficient criterion**. It is not presented as original PC-CC3.
+
+## Dimension-scalable original PC-CC benchmark
 
 Run:
 
 ```bash
-julia ScalableExample/explicit_degree2_certificate.jl 8
 julia GraphIndexedExample/explicit_graph_certificate.jl 8
 ```
 
-The exact degree-two certificate has original PC-CC3 margin
+The paper reports dimensions `n=4,8,16`. The two-node graph-indexed family
+
+```math
+C_{p,q}(x,y)=C_0(x_p,y_q)
+```
+
+uses four distinct mixed source/destination degree-two certificates. PC-CC1 and PC-CC2 are checked exactly. PC-CC3 uses
+
+```text
+s2 = 1
+s3a = 0
+s3b = 41/20
+```
+
+and has global minimum
 
 ```text
 475/3904 > 0
 ```
 
-and is non-vacuous over four visits. The graph-indexed construction uses four distinct relational certificates and documents the bounded matched sparse one-node comparison.
+at
 
-## Deterministic generated results
-
-Regenerate:
-
-```bash
-python scripts/platoon_audit.py --json results/platoon_audit.json
-python scripts/export_trace_data.py --outdir results
+```text
+(a*, b*, c*) = (0, 19/20, 2243/2440).
 ```
 
-Committed generated artifacts are checked byte-for-byte modulo newline normalization by `scripts/run_all_checks.py`.
+The all-mode-2 witness has exactly four visits at times 5â€“8.
 
-## Final reproduction machine
+## Full matched convex-projection comparison
 
-The final licensed SOS run was reproduced on:
+For the specified one-node family
 
-- Microsoft Windows 11 Pro, version 10.0.26200, ARM64;
-- Snapdragon(R) X 12-core X1E80100 @ 3.40 GHz;
-- 12 physical cores and 12 logical processors;
-- 68,171,038,720 bytes physical memory (approximately 63.5 GiB).
+```math
+z_\alpha=\alpha z_1+(1-\alpha)z_2,\qquad \alpha\in[0,1],
+```
 
-The manuscript should report the OS, CPU, RAM, Julia version, TSSOS version, MosekTools/Mosek.jl/MOSEK versions, SOS orders, wall times, JuMP variable counts, top-level constraint counts, and strict termination/primal statuses for the final platoon verifier.
+the verifier checks the exact PC-CC1 residual formulas
+
+```math
+r_A(\alpha)=15(25\alpha-16),
+```
+
+and
+
+```math
+r_B(\alpha)=-5(119\alpha^2-41\alpha-15).
+```
+
+Hence `r_A(alpha) < 0` for `alpha < 16/25`. On `[16/25,1]`,
+
+```math
+r_B'(\alpha)=205-1190\alpha<0
+```
+
+and
+
+```math
+r_B(16/25)=-4689/125<0.
+```
+
+Therefore every member of this specified convex-projection family fails PC-CC1, while the two-node graph-indexed family succeeds. This comparison does **not** exclude unrestricted one-node certificates.
+
+## Public repository
+
+https://github.com/HyConSys/PCCC

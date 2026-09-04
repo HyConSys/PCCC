@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-import random
 import sys
 import unittest
 from fractions import Fraction as F
@@ -50,7 +49,7 @@ class PlatoonFinalTests(unittest.TestCase):
         text = (ROOT / "ComplexExample" / "verify_target_local_ranked_pccc.jl").read_text(encoding="utf-8")
         self.assertIn("MOI.OPTIMAL", text)
         self.assertIn("MOI.FEASIBLE_POINT", text)
-        self.assertIn("STRICT SUBMITTED-GRAPH TARGET-LOCAL RANKED SOS CERTIFICATE VERIFIED", text)
+        self.assertIn("SUBMITTED-GRAPH REACHABILITY--RANK SOS CERTIFICATE VERIFIED", text)
         self.assertIn("(1, 1, 1)", text)
         self.assertIn("(1, 2, 2)", text)
         self.assertIn("(2, 2, 1)", text)
@@ -59,7 +58,7 @@ class PlatoonFinalTests(unittest.TestCase):
         self.assertNotIn("MOI.ALMOST_OPTIMAL", text)
 
 
-class ScalableOriginalPCCCTests(unittest.TestCase):
+class ScalableAuxiliaryKernelTests(unittest.TestCase):
     def test_four_visits_multiple_dimensions(self) -> None:
         for dimension in (2, 4, 8, 16):
             trajectory = scalable.slow_trajectory(dimension, 10)
@@ -85,9 +84,10 @@ class ScalableOriginalPCCCTests(unittest.TestCase):
         self.assertEqual(mixed, F(500))
 
     def test_exact_pc_cc3_margin(self) -> None:
-        margin, _ = scalable.sos3_exact_minimum()
+        margin, minimizer = scalable.sos3_exact_minimum()
         self.assertEqual(margin, F(475, 3904))
         self.assertGreater(margin, 0)
+        self.assertEqual(minimizer, (F(0), F(19, 20), F(2243, 2440)))
 
     def test_pc_cc3_nonvacuous_on_four_visit_witness(self) -> None:
         trajectory = scalable.slow_trajectory(8, 10)
@@ -100,7 +100,7 @@ class ScalableOriginalPCCCTests(unittest.TestCase):
             self.assertLessEqual(scalable.certificate(x0, yp), scalable.certificate(x0, y) - 1)
 
 
-class GraphIndexedOriginalPCCCTests(unittest.TestCase):
+class GraphIndexedSubmittedBenchmarkTests(unittest.TestCase):
     def test_submitted_graph_is_path_complete(self) -> None:
         nodes = {1, 2}
         edges = set(graph_model.EDGES)
@@ -126,7 +126,16 @@ class GraphIndexedOriginalPCCCTests(unittest.TestCase):
         }
         self.assertEqual(len(set(values.values())), 4)
 
-    def test_matched_sparse_one_node_residuals(self) -> None:
+    def test_reported_dimensions_have_four_visits(self) -> None:
+        for dimension in (4, 8, 16):
+            trajectory = graph_model.slow_trajectory(dimension, 10)
+            visits = [
+                t for t, state in enumerate(trajectory)
+                if t > 0 and graph_model.in_finite_visit_set(state)
+            ]
+            self.assertEqual(visits, [5, 6, 7, 8])
+
+    def test_matched_special_cases(self) -> None:
         for dimension in (3, 8):
             state1 = (F(1), F(0), *(F(0) for _ in range(dimension - 2)))
             state2 = (F(0), F(1), *(F(0) for _ in range(dimension - 2)))
@@ -134,16 +143,32 @@ class GraphIndexedOriginalPCCCTests(unittest.TestCase):
             self.assertEqual(graph_model.projection_certificate(1, state2, graph_model.step(state2, 1)), F(-240))
             self.assertEqual(graph_model.average_certificate(state2, graph_model.step(state2, 1)), F(-105, 2))
 
+    def test_full_convex_projection_family_proof(self) -> None:
+        split = F(16, 25)
+        self.assertEqual(graph_model.ALPHA_SPLIT, split)
+        self.assertEqual(graph_model.convex_projection_residual_a(split), 0)
+        self.assertLess(graph_model.convex_projection_residual_a(F(0)), 0)
+        self.assertEqual(graph_model.convex_projection_residual_b(split), F(-4689, 125))
+        self.assertLess(graph_model.convex_projection_residual_b_derivative(split), 0)
+        self.assertLess(graph_model.convex_projection_residual_b_derivative(F(1)), 0)
+
+        # Representative exact points on both branches plus the branch proof data.
+        for alpha in (F(0), F(1, 4), F(1, 2), F(639, 1000), split, F(3, 4), F(1)):
+            self.assertTrue(graph_model.convex_projection_family_fails(alpha))
+
 
 class RepositoryIntegrityTests(unittest.TestCase):
-    def test_manifest_matches_final_package(self) -> None:
+    def test_manifest_matches_submitted_package(self) -> None:
         manifest = json.loads((ROOT / "metadata" / "reproducibility_manifest.json").read_text(encoding="utf-8"))
-        self.assertEqual(manifest["lead_author"], "Reza Iraji")
-        self.assertEqual(manifest["intended_public_repository"], "rezairaji60/PCCC")
-        self.assertEqual(manifest["verified_results"]["platoon"]["positive_time_visits"], 4)
-        self.assertEqual(manifest["verified_results"]["scalable_original_pccc"]["original_pc_cc3_exact_margin"], "475/3904")
+        self.assertEqual(manifest["repository_maintainer"], "Reza Iraji")
+        self.assertEqual(manifest["public_repository"], "HyConSys/PCCC")
+        self.assertEqual(manifest["verified_results"]["platoon_reachability_rank"]["positive_time_visits"], 4)
+        graph = manifest["verified_results"]["graph_indexed_original_pccc"]
+        self.assertEqual(graph["reported_dimensions"], [4, 8, 16])
+        self.assertEqual(graph["original_pc_cc3_exact_margin"], "475/3904")
+        self.assertEqual(graph["global_minimizer"], ["0", "19/20", "2243/2440"])
 
-    def test_reviewer_package_has_no_obsolete_search_files(self) -> None:
+    def test_obsolete_revision_development_files_are_absent(self) -> None:
         obsolete = [
             "ComplexExample/pccc_onenode.jl",
             "ComplexExample/pccc_twonode.jl",
@@ -152,24 +177,51 @@ class RepositoryIntegrityTests(unittest.TestCase):
             "ComplexExample/pccc_twonode_results.txt",
             "ScalableExample/sos_verify_degree2.jl",
             "REVIEWER_SIMULATION_AUDIT.md",
+            "REVIEWER_EVIDENCE_INDEX.md",
+            "REVIEWER_RESPONSE_MATRIX.md",
             "pccc_diagram.pdf",
             "pccc_diagram.png",
         ]
         for relative in obsolete:
             self.assertFalse((ROOT / relative).exists(), relative)
         self.assertFalse((ROOT / "SimpleExample").exists())
+        self.assertFalse((ROOT / "manuscript").exists())
 
-    def test_key_documents_do_not_claim_platoon_sos_failure(self) -> None:
-        for relative in (
+    def test_key_documents_use_solver_status_language(self) -> None:
+        key_docs = (
             "README.md",
             "REPRODUCIBILITY.md",
             "SIMULATION_RESULTS.md",
             "ComplexExample/Complex_CaseStudy.md",
-            "manuscript/SIMULATION_SECTION_REPLACEMENT.tex",
-        ):
+            "results/README.md",
+        )
+        forbidden = (
+            "strict sos",
+            "strictly verifies",
+            "strict sos certificate",
+            "strict optimal",
+            "strict termination/primal",
+        )
+        for relative in key_docs:
             text = (ROOT / relative).read_text(encoding="utf-8").lower()
+            for phrase in forbidden:
+                self.assertNotIn(phrase, text, f"{relative}: {phrase}")
             self.assertNotIn("no strict corrected-platoon sos certificate", text, relative)
             self.assertNotIn("no corrected-platoon certificate is claimed", text, relative)
+
+    def test_public_repository_references_are_current(self) -> None:
+        key_docs = (
+            "README.md",
+            "AUTHORS.md",
+            "CITATION.cff",
+            "REPRODUCIBILITY.md",
+            "metadata/reproducibility_manifest.json",
+        )
+        for relative in key_docs:
+            text = (ROOT / relative).read_text(encoding="utf-8")
+            self.assertNotIn("rezairaji60/PCCC", text, relative)
+            self.assertNotIn("AC-Disaster-Consulting/Test", text, relative)
+        self.assertIn("https://github.com/HyConSys/PCCC", (ROOT / "README.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

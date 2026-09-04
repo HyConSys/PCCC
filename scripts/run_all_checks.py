@@ -40,27 +40,44 @@ def verify_generated_results() -> None:
 
 
 def verify_required_files() -> None:
+    # Only current, reviewer-facing artifacts aligned with the submitted revision.
     required = (
         "README.md",
+        "AUTHORS.md",
+        "CITATION.cff",
         "REPRODUCIBILITY.md",
         "SIMULATION_RESULTS.md",
-        "REVIEWER_EVIDENCE_INDEX.md",
-        "REVIEWER_RESPONSE_MATRIX.md",
+        "ComplexExample/Complex_CaseStudy.md",
         "ComplexExample/platoon_model.jl",
         "ComplexExample/verify_normalized_model.jl",
         "ComplexExample/verify_target_local_ranked_pccc.jl",
+        "ScalableExample/Scalable_CaseStudy.md",
         "ScalableExample/explicit_degree2_certificate.jl",
         "ScalableExample/scalable_model.py",
+        "GraphIndexedExample/Graph_Indexed_CaseStudy.md",
         "GraphIndexedExample/explicit_graph_certificate.jl",
         "GraphIndexedExample/graph_indexed_model.py",
-        "manuscript/ABSTRACT_REPLACEMENT.tex",
-        "manuscript/SIMULATION_SECTION_REPLACEMENT.tex",
-        "manuscript/THEOREM_AND_SOS_EDITS.tex",
         "metadata/reproducibility_manifest.json",
+        "results/README.md",
+        "results/final_ranked_platoon_sos.txt",
+        ".github/workflows/simulation-audit.yml",
     )
     for relative in required:
         if not (ROOT / relative).is_file():
             raise RuntimeError(f"missing reviewer-facing artifact: {relative}")
+
+    # Revision-development documents are intentionally not part of the public evidence package.
+    obsolete = (
+        "REVIEWER_EVIDENCE_INDEX.md",
+        "REVIEWER_RESPONSE_MATRIX.md",
+        "manuscript/ABSTRACT_REPLACEMENT.tex",
+        "manuscript/SIMULATION_SECTION_REPLACEMENT.tex",
+        "manuscript/THEOREM_AND_SOS_EDITS.tex",
+        "manuscript/README.md",
+    )
+    for relative in obsolete:
+        if (ROOT / relative).exists():
+            raise RuntimeError(f"obsolete revision-development artifact still present: {relative}")
 
 
 def main() -> None:
@@ -75,7 +92,7 @@ def main() -> None:
         raise RuntimeError("Python bytecode compilation failed")
 
     verify_generated_results()
-    print("All final PCCC reviewer-package checks passed.")
+    print("All submitted-revision PCCC reviewer-package checks passed.")
 
 
 if __name__ == "__main__":

@@ -1,17 +1,15 @@
 {
-  "schema_version": 2,
-  "package_version": "final-reviewer-package",
-  "lead_author": "Reza Iraji",
+  "schema_version": 3,
+  "package_version": "submitted-reviewer-package",
   "paper_authors": [
     "Reza Iraji",
     "Felipe Galarza-Jimenez",
     "Majid Zamani"
   ],
-  "intended_public_repository": "rezairaji60/PCCC",
-  "working_repository": "AC-Disaster-Consulting/Test",
-  "working_branch": "main",
+  "repository_maintainer": "Reza Iraji",
+  "public_repository": "HyConSys/PCCC",
   "verified_results": {
-    "platoon": {
+    "platoon_reachability_rank": {
       "positive_time_visits": 4,
       "visit_times": [1, 2, 3, 4],
       "initial_velocity_difference": [3.6, 3.8],
@@ -19,7 +17,9 @@
       "submitted_graph_unchanged": true,
       "physical_plant_and_sets_unchanged": true,
       "coordinate_equivalence_check": "ComplexExample/verify_normalized_model.jl",
-      "strict_ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl",
+      "sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl",
+      "criterion": "separate graph-indexed reachability-rank sufficient criterion",
+      "solver_status_note": "OPTIMAL termination and FEASIBLE_POINT primal are solver-reported statuses, not mathematical strict-feasibility guarantees",
       "certificate_degrees": {
         "C11": 2,
         "C12": 2,
@@ -28,12 +28,11 @@
         "rank": 1
       },
       "rank_epsilon": "19/1200",
-      "reproduced_status_policy": "every nontrivial SOS block OPTIMAL/FEASIBLE_POINT",
       "largest_sos_block": {
         "putinar_order": 4,
         "jump_variables": 8156,
         "top_level_constraints": 12,
-        "final_reproduction_times_seconds": [0.209, 0.210]
+        "reported_wall_time": "about 0.20 s each for the two order-4 propagation blocks"
       },
       "witness_rank_drops": [
         2.58403853473683,
@@ -41,19 +40,26 @@
         1.78776782997151
       ]
     },
-    "scalable_original_pccc": {
-      "dimensions": [2, 4, 8, 16],
-      "visits": 4,
-      "certificate_degree": 2,
-      "nonzero_monomials": 5,
-      "original_pc_cc3_exact_margin": "475/3904"
-    },
     "graph_indexed_original_pccc": {
-      "dimensions": [3, 4, 8, 16],
+      "reported_dimensions": [4, 8, 16],
       "visits": 4,
       "certificate_degree": 2,
       "four_distinct_relational_certificates": true,
-      "matched_sparse_one_node_pc_cc1_residuals": ["-315", "-240", "-105/2"]
+      "original_pc_cc3_exact_margin": "475/3904",
+      "global_minimizer": ["0", "19/20", "2243/2440"],
+      "multipliers": {
+        "s2": "1",
+        "s3a": "0",
+        "s3b": "41/20"
+      },
+      "one_node_comparison": {
+        "family": "z_alpha = alpha z1 + (1-alpha) z2, alpha in [0,1]",
+        "residual_A": "15(25 alpha - 16)",
+        "residual_B": "-5(119 alpha^2 - 41 alpha - 15)",
+        "split": "16/25",
+        "residual_B_at_split": "-4689/125",
+        "scope": "specified convex-projection family only; unrestricted one-node certificates are not excluded"
+      }
     }
   },
   "software_environment": {
@@ -63,26 +69,13 @@
     "mosektools": "0.15.10",
     "mosek_jl": "11.2.0",
     "mosek_runtime": "11.2.0",
-    "solver_license": "licensed MOSEK installation required for the final platoon SOS verifier"
-  },
-  "hardware_environment": {
-    "operating_system": "Microsoft Windows 11 Pro 10.0.26200",
-    "architecture": "ARM64",
-    "cpu": "Snapdragon(R) X 12-core X1E80100 @ 3.40 GHz",
-    "physical_cores": 12,
-    "logical_processors": 12,
-    "physical_memory_bytes": 68171038720,
-    "physical_memory_gib_approx": 63.5
+    "solver_license": "licensed MOSEK installation required for the platoon SOS verifier"
   },
   "acceptance_policy": [
     "exact rational or symbolic verification for solver-free claims",
     "termination status OPTIMAL for every reported numerical SOS block",
     "primal status FEASIBLE_POINT for every reported numerical SOS block",
+    "solver statuses are not mathematical strict-feasibility guarantees",
     "SLOW_PROGRESS and ALMOST_OPTIMAL are never accepted as certificates"
-  ],
-  "scope_notes": [
-    "The platoon ranked recurrence condition is a separate sufficient persistence condition and is not relabeled as original PC-CC3.",
-    "Original PC-CC3 is exercised non-vacuously by the scalable and graph-indexed benchmarks.",
-    "The one-node comparison is limited to the documented matched sparse template class."
   ]
 }

@@ -1,6 +1,6 @@
 # Author: Reza Iraji
 #
-# Strict SOS verifier for the four-visit nonlinear platoon using the
+# SOS verifier for the four-visit nonlinear platoon using the
 # submitted two-node path-complete graph.
 #
 # This file does not synthesize certificate coefficients.  It verifies an
@@ -110,7 +110,7 @@ function count_constraints(model::Model)
     )
 end
 
-strictly_certified(model::Model) =
+accepted_solver_statuses(model::Model) =
     termination_status(model) == MOI.OPTIMAL &&
     primal_status(model) == MOI.FEASIBLE_POINT
 
@@ -142,7 +142,7 @@ function verify_psatz(label::String, poly, vars, domain; max_extra_order = 2)
         elapsed = time() - started
 
         info = (
-            certified = strictly_certified(model),
+            certified = accepted_solver_statuses(model),
             order = order,
             degree = maxdegree(poly),
             termination = termination_status(model),
@@ -215,7 +215,7 @@ end
 function verify_certificate()
     println()
     println(repeat("=", 78))
-    println("SUBMITTED-GRAPH TARGET-LOCAL RANKED PC-CC -- STRICT SOS")
+    println("SUBMITTED-GRAPH REACHABILITY--RANK SOS VERIFICATION")
     println(repeat("=", 78))
     println("submitted graph edges = ", EDGES)
     println("physical plant / X / X0 / Xvf = UNCHANGED")
@@ -315,14 +315,14 @@ function main()
 
     preflight()
     ok, failed, results = verify_certificate()
-    ok || error("Strict SOS verification failed at $failed")
+    ok || error("SOS verification failed at $failed")
     witness_report()
 
     println()
     println(repeat("=", 78))
     println("FINAL RESULT")
     println(repeat("=", 78))
-    println("STRICT SUBMITTED-GRAPH TARGET-LOCAL RANKED SOS CERTIFICATE VERIFIED")
+    println("SUBMITTED-GRAPH REACHABILITY--RANK SOS CERTIFICATE VERIFIED")
     println("four visits = VERIFIED")
     println("non-vacuous recurrence descent = VERIFIED")
     println("plant / physical sets / submitted graph = UNCHANGED")

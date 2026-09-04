@@ -137,7 +137,7 @@ R(a,d)=\frac{\frac{91}{120}-Z(a,d)}{\frac{19}{1200}}.
 
 The ranked condition is a separate sufficient persistence condition and is **not** relabeled as the original PC-CC3 condition.
 
-## Strict SOS verification
+## SOS verification and solver-status acceptance
 
 Run
 
@@ -166,7 +166,7 @@ all strictly larger than one.
 The final console banner is
 
 ```text
-STRICT SUBMITTED-GRAPH TARGET-LOCAL RANKED SOS CERTIFICATE VERIFIED
+SUBMITTED-GRAPH REACHABILITY--RANK SOS CERTIFICATE VERIFIED
 four visits = VERIFIED
 non-vacuous recurrence descent = VERIFIED
 plant / physical sets / submitted graph = UNCHANGED

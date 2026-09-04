@@ -7,7 +7,7 @@ reachable visit set: T = R1 intersect X_vf
 four-visit witness times = [1, 2, 3, 4]
 
 ==============================================================================
-SUBMITTED-GRAPH TARGET-LOCAL RANKED PC-CC -- STRICT SOS
+SUBMITTED-GRAPH REACHABILITY--RANK SOS VERIFICATION
 ==============================================================================
 submitted graph edges = [(1, 1, 1), (1, 2, 2), (2, 2, 1), (1, 1, 2)]
 physical plant / X / X0 / Xvf = UNCHANGED
@@ -49,7 +49,7 @@ PC-CC recurrence/rank mechanism is NON-VACUOUS on all three visit transitions
 ==============================================================================
 FINAL RESULT
 ==============================================================================
-STRICT SUBMITTED-GRAPH TARGET-LOCAL RANKED SOS CERTIFICATE VERIFIED
+SUBMITTED-GRAPH REACHABILITY--RANK SOS CERTIFICATE VERIFIED
 four visits = VERIFIED
 non-vacuous recurrence descent = VERIFIED
 plant / physical sets / submitted graph = UNCHANGED
