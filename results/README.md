@@ -26,10 +26,10 @@ python scripts/export_trace_data.py --outdir results
 
 Files:
 
-- `platoon_audit.json` â€” exact/rational behavioral and forward-invariance audit data;
-- `platoon_corrected_gap.csv` â€” four-visit platoon trace for plotting;
-- `scalable_progress.csv` â€” exact scalable benchmark trace;
-- `graph_indexed_progress.csv` â€” exact graph-indexed benchmark trace.
+- `platoon_audit.json` -- exact/rational behavioral and forward-invariance audit data;
+- `platoon_corrected_gap.csv` -- four-visit platoon trace for plotting;
+- `scalable_progress.csv` -- exact scalable benchmark trace;
+- `graph_indexed_progress.csv` -- exact graph-indexed benchmark trace.
 
 `python scripts/run_all_checks.py` regenerates these deterministic files in a temporary directory and compares them with the committed copies.
 
