@@ -8,7 +8,7 @@ This protocol is aligned with the revised manuscript and the August 28, 2026 res
 ## Evidence classes
 
 1. **Exact, solver-free evidence.** Rational-arithmetic scripts and deterministic regression tests establish the four-visit traces, physical/normalized platoon equivalence, the dimension-scalable two-node original-PC-CC construction, the exact PC-CC3 margin `475/3904`, and the full matched convex-projection one-node comparison.
-2. **Licensed SOS evidence for the platoon reachabilityâ€“rank criterion.** A reported SOS block is accepted only when the solver returns termination status `OPTIMAL` and primal status `FEASIBLE_POINT`. These are solver-reported statuses and are not mathematical strict-feasibility guarantees.
+2. **Licensed SOS evidence for the platoon reachability-rank criterion.** A reported SOS block is accepted only when the solver returns termination status `OPTIMAL` and primal status `FEASIBLE_POINT`. These are solver-reported statuses and are not mathematical strict-feasibility guarantees.
 
 No `SLOW_PROGRESS`, `ALMOST_OPTIMAL`, rounded iterate, or exploratory failed search is used as reviewer-facing evidence.
 
@@ -68,7 +68,7 @@ and the physical nonlinear plant and sets unchanged. It verifies:
 
 All 4/4 one-step, 8/8 propagation, rank-nonnegativity, and 2/2 recurrent-node blocks in the archived run report `OPTIMAL/FEASIBLE_POINT`. The six order-2 propagation blocks use 256 variables and 12 top-level constraints. The two order-4 propagation blocks use 8,156 variables and 12 top-level constraints and solve in about 0.20 s each. Rank blocks use at most order 2 and 241 variables. The witness rank drops are approximately `2.5840`, `2.1440`, and `1.7878`.
 
-This computation verifies the **separate graph-indexed reachabilityâ€“rank sufficient criterion**. It is not presented as original PC-CC3.
+This computation verifies the **separate graph-indexed reachability-rank sufficient criterion**. It is not presented as original PC-CC3.
 
 ## Dimension-scalable original PC-CC benchmark
 
@@ -104,7 +104,7 @@ at
 (a*, b*, c*) = (0, 19/20, 2243/2440).
 ```
 
-The all-mode-2 witness has exactly four visits at times 5â€“8.
+The all-mode-2 witness has exactly four visits at times 5-8.
 
 ## Full matched convex-projection comparison
 
