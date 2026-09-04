@@ -96,7 +96,7 @@ The exact preflight used in the final verifier establishes:
 
 This is an exact reachability reduction; it does not alter the physical plant or specification.
 
-## Explicit target-local ranked path-complete certificate
+## Graph-indexed reachability-rank construction
 
 Define
 
@@ -153,7 +153,7 @@ The verifier checks:
 4. recurrent-node unit descent of `R` for graph nodes 1 and 2;
 5. non-vacuity on all three transitions between the four visits.
 
-The reproduced final run returned `OPTIMAL/FEASIBLE_POINT` for every nontrivial SOS block. On the witness, the three rank drops are approximately
+The reproduced final run reported termination status `OPTIMAL` and primal status `FEASIBLE_POINT` for every nontrivial SOS block. These are solver-reported statuses, not mathematical strict-feasibility guarantees. On the witness, the three rank drops are approximately
 
 ```text
 2.58403853473683
