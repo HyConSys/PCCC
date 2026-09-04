@@ -140,7 +140,7 @@ end
 
 function assert_multiplier_configuration(tau_3a::Real, tau_3b::Real)
     if isapprox(tau_3a, 1.0; atol = 1e-12, rtol = 0.0) && tau_3b >= 0
-        error("tau_3a = 1 cancels C_pq in SOS-3 and cannot certify genuine repeated visits with a nonnegative tau_3b. Use tau_3a != 1 or an alternating multiplier scheme.")
+        error("tau_3a = 1 cancels C_pq in SOS-3 and cannot certify genuine repeated visits with a nonnegative tau_3b. Use a noncancelling premise-multiplier configuration.")
     end
     tau_3a < 0 && error("SOS premise multipliers must be nonnegative.")
     tau_3b < 0 && error("SOS premise multipliers must be nonnegative.")
