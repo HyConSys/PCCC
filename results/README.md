@@ -13,7 +13,7 @@ This directory contains only deterministic or final reviewer-facing result artif
 julia --project=. ComplexExample/verify_target_local_ranked_pccc.jl
 ```
 
-Every nontrivial SOS block in that record terminated `OPTIMAL/FEASIBLE_POINT`. The file also records the four visit times and the three non-vacuous rank drops.
+Every nontrivial SOS block in that record reported termination status `OPTIMAL` and primal status `FEASIBLE_POINT`. The file also records the four visit times and the three non-vacuous rank drops.
 
 ## Deterministic analytical artifacts
 
