@@ -8,11 +8,11 @@ Authors: Reza Iraji, Felipe Galarza-Jimenez, and Majid Zamani. Reza Iraji is the
 
 This repository accompanies the revised manuscript and reproduces its two complementary computational results.
 
-1. **Four-visit nonlinear platoon â€” graph-indexed reachabilityâ€“rank criterion.** The nonlinear platoon dynamics, physical state set, four-visit persistence sets, and submitted two-node path-complete graph are unchanged. `ComplexExample/verify_target_local_ranked_pccc.jl` verifies the separate graph-indexed reachabilityâ€“rank sufficient criterion. For every reported numerical SOS block, the solver reports termination status `OPTIMAL` and primal status `FEASIBLE_POINT`; these are solver-reported statuses, not mathematical strict-feasibility guarantees.
+1. **Four-visit nonlinear platoon -- graph-indexed reachability-rank criterion.** The nonlinear platoon dynamics, physical state set, four-visit persistence sets, and submitted two-node path-complete graph are unchanged. `ComplexExample/verify_target_local_ranked_pccc.jl` verifies the separate graph-indexed reachability-rank sufficient criterion. For every reported numerical SOS block, the solver reports termination status `OPTIMAL` and primal status `FEASIBLE_POINT`; these are solver-reported statuses, not mathematical strict-feasibility guarantees.
 2. **Dimension-scalable original PC-CC benchmark.** `GraphIndexedExample/explicit_graph_certificate.jl` verifies the original PC-CC conditions for the two-node graph-indexed construction in dimensions 4, 8, and 16. The degree-two relational family has four distinct source/destination-indexed certificates, exhibits four visits, and has exact PC-CC3 margin `475/3904 > 0`, attained at `(0, 19/20, 2243/2440)`.
 3. **Matched one-node/two-node comparison.** The same graph-indexed verifier checks the full convex-projection family `z_alpha = alpha z1 + (1-alpha) z2`, `alpha in [0,1]`. Exact residual formulas show every member of this specified one-node family violates PC-CC1, while the two-node family succeeds. This is not a nonexistence claim for unrestricted one-node certificates.
 
-The platoon reachabilityâ€“rank construction is a **separate sufficient proposition** and is not identified with original PC-CC3. The dimension-scalable graph-indexed benchmark independently exercises original PC-CC3 non-vacuously.
+The platoon reachability-rank construction is a **separate sufficient proposition** and is not identified with original PC-CC3. The dimension-scalable graph-indexed benchmark independently exercises original PC-CC3 non-vacuously.
 
 ## Quick reproduction
 
