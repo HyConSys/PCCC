@@ -37,7 +37,7 @@
     ]
   },
   "verification_scope": {
-    "statement": "Behavioral quantities here use exact rational arithmetic; the ranked SOS certificate is verified separately by the licensed Julia verifier.",
-    "ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl"
+    "ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl",
+    "statement": "Behavioral quantities here use exact rational arithmetic; the ranked SOS certificate is verified separately by the licensed Julia verifier."
   }
 }
