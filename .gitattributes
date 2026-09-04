@@ -1,0 +1,11 @@
+# Author: Reza Iraji
+# Keep reviewer-facing generated evidence byte-stable across platforms.
+results/*.csv text eol=lf
+results/*.json text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.jl text eol=lf
+*.tex text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.cff text eol=lf

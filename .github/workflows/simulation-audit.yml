@@ -1,0 +1,52 @@
+# Author: Reza Iraji
+name: reviewer-package-audit
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  solver-free-reproducibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run final solver-free regression suite
+        run: python scripts/run_all_checks.py
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.12'
+
+      - name: Verify normalized platoon coordinate equivalence
+        run: julia ComplexExample/verify_normalized_model.jl
+
+      - name: Verify exact scalable original PC-CC certificate
+        run: julia ScalableExample/explicit_degree2_certificate.jl 8
+
+      - name: Verify exact graph-indexed original PC-CC certificate
+        run: julia GraphIndexedExample/explicit_graph_certificate.jl 8
+
+      - name: Instantiate pinned Julia environment
+        run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.status()'
+
+      - name: Check final platoon verifier parses with pinned dependencies
+        run: >-
+          julia --project=. -e '
+          include("ComplexExample/platoon_model.jl");
+          using .PlatoonModel;
+          @assert coordinate_model("normalized_gap").slug == "normalized_gap";
+          println("final platoon model dependency smoke test passed")'
+
+# The licensed SOS run is intentionally not executed in public CI because it
+# requires a MOSEK license. Reproduce it locally with:
+# julia --project=. ComplexExample/verify_target_local_ranked_pccc.jl

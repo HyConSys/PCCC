@@ -1,0 +1,55 @@
+==============================================================================
+EXACT REACHABILITY PREFLIGHT
+==============================================================================
+low-a branch: zero visits, exact margin = 56//1875
+high-a branch: R0 -> R1 and R1 is forward invariant
+reachable visit set: T = R1 intersect X_vf
+four-visit witness times = [1, 2, 3, 4]
+
+==============================================================================
+SUBMITTED-GRAPH TARGET-LOCAL RANKED PC-CC -- STRICT SOS
+==============================================================================
+submitted graph edges = [(1, 1, 1), (1, 2, 2), (2, 2, 1), (1, 1, 2)]
+physical plant / X / X0 / Xvf = UNCHANGED
+C11,C12,C21 degree <= 2; C22 degree <= 4
+rank degree = 1
+epsilon = 19//1200 = 0.015833333333333335
+
+TL-PC1 / one-step graph closure
+TL-PC1/1-1-1                           order=1 deg=0 status=OPTIMAL/FEASIBLE_POINT time=5.388s vars=11 cons=7 certified=true
+TL-PC1/1-2-2                           order=1 deg=1 status=OPTIMAL/FEASIBLE_POINT time=0.002s vars=11 cons=7 certified=true
+TL-PC1/2-2-1                           order=1 deg=1 status=OPTIMAL/FEASIBLE_POINT time=0.003s vars=11 cons=7 certified=true
+TL-PC1/1-1-2                           order=1 deg=0 status=OPTIMAL/FEASIBLE_POINT time=0.000s vars=11 cons=7 certified=true
+
+TL-PC2 / backward propagation to a reachable visit
+TL-PC2/1-1-1/1                         order=2 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.012s vars=256 cons=12 certified=true
+TL-PC2/1-1-1/2                         order=2 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.011s vars=256 cons=12 certified=true
+TL-PC2/1-2-2/1                         order=2 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.010s vars=256 cons=12 certified=true
+TL-PC2/1-2-2/2                         order=4 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.193s vars=8156 cons=12 certified=true
+TL-PC2/2-2-1/1                         order=2 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.008s vars=256 cons=12 certified=true
+TL-PC2/2-2-1/2                         order=2 deg=4 status=OPTIMAL/FEASIBLE_POINT time=0.009s vars=256 cons=12 certified=true
+TL-PC2/1-1-2/1                         order=2 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.009s vars=256 cons=12 certified=true
+TL-PC2/1-1-2/2                         order=4 deg=2 status=OPTIMAL/FEASIBLE_POINT time=0.193s vars=8156 cons=12 certified=true
+
+RANK / nonnegativity on reachable target
+RANK/nonnegative                       order=1 deg=1 status=OPTIMAL/FEASIBLE_POINT time=0.002s vars=10 cons=6 certified=true
+
+SOS-R / recurrent-node unit descent
+SOS-R/node-1                           order=1 deg=1 status=OPTIMAL/FEASIBLE_POINT time=0.002s vars=24 cons=11 certified=true
+SOS-R/node-2                           order=2 deg=1 status=OPTIMAL/FEASIBLE_POINT time=0.011s vars=241 cons=11 certified=true
+
+==============================================================================
+FOUR-VISIT NON-VACUITY CHECK
+==============================================================================
+visit 1 -> 2: C11=0, rank drop=2.58403853473683
+visit 2 -> 3: C11=0, rank drop=2.14404862004549
+visit 3 -> 4: C11=0, rank drop=1.78776782997151
+PC-CC recurrence/rank mechanism is NON-VACUOUS on all three visit transitions
+
+==============================================================================
+FINAL RESULT
+==============================================================================
+STRICT SUBMITTED-GRAPH TARGET-LOCAL RANKED SOS CERTIFICATE VERIFIED
+four visits = VERIFIED
+non-vacuous recurrence descent = VERIFIED
+plant / physical sets / submitted graph = UNCHANGED

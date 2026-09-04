@@ -1,0 +1,86 @@
+% Lead author: Reza Iraji
+% Paper coauthors: Felipe Galarza-Jimenez and Majid Zamani
+\section{Case Study}\label{sec:case-study-revised}
+We retain the nonlinear two-car platoon dynamics and the submitted two-node path-complete graph. The state is $x=(x_1,x_2)$, where $x_1$ and $x_2$ are follower and leader velocities, respectively, and
+\[
+f_1(x)=\begin{bmatrix}0.01x_2+0.9x_1-0.02x_1^2\\2+0.8x_2-0.04x_2^2\end{bmatrix},\qquad
+f_2(x)=\begin{bmatrix}0.9x_1-0.02x_1^2\\2+0.8x_2-0.04x_2^2\end{bmatrix}.
+\]
+We use the same path-complete graph as in the submitted manuscript,
+\[
+\mathcal E=\{(1,1,1),(1,2,2),(2,2,1),(1,1,2)\}.
+\]
+The four-visit persistence specification uses the physical state domain $0\le x_1\le x_2\le6$, the initial velocity-difference band $3.6\le x_2-x_1\le3.8$, and the finite-visit band $3.2\le x_2-x_1\le3.55$. No plant, graph, or physical set is changed in the verification below.
+
+For analysis we apply the affine normalization
+\[
+a=x_2/6,\qquad d=(x_2-x_1)/6,
+\]
+so $0\le d\le a\le1$. The exact scalar updates are
+\[
+A(a)=\frac13+\frac45a-\frac6{25}a^2,
+\]
+\[
+D_1(a,d)=\frac13-\frac{11}{100}a+\frac9{10}d-\frac3{25}a^2-\frac6{25}ad+\frac3{25}d^2,
+\qquad D_2(a,d)=D_1(a,d)+\frac{a}{100}.
+\]
+The low-$a$ initial branch $a\le5/6$ never reaches the finite-visit set, with exact separation margin $56/1875$. The potentially visiting branch
+\[
+\mathcal R_0=[5/6,1]\times[3/5,19/30]
+\]
+is mapped by both modes into the forward-invariant rectangle
+\[
+\mathcal R_1=[5/6,67/75]\times[4069/7500,5/6].
+\]
+Hence every reachable finite-visit state lies in
+\[
+\mathcal T=\mathcal R_1\cap\mathcal X_{\mathrm{vf}}
+=[5/6,67/75]\times[4069/7500,71/120].
+\]
+The execution from $x(0)=(2.4,6)$ under repeated mode 1 visits $\mathcal X_{\mathrm{vf}}$ exactly at times $1,2,3,4$; the corresponding velocity differences are $3.2552$, $3.2794996608$, $3.3991238844$, and $3.5359885384$, followed by $3.6654133881>3.55$ at time $5$.
+
+Define the progress coordinate
+\[
+Z(a,d)=1-a+d,
+\]
+and let
+\[
+W_1(w)=Z(f_1(w)),\qquad W_2(w)=W_1(f_1(w)).
+\]
+The shortest positive graph-path lengths are $\ell_{11}=\ell_{12}=\ell_{21}=1$ and $\ell_{22}=2$. We use the explicit graph-indexed closure family
+\[
+C_{p,q}(x,y)=Z(y)-W_{\ell_{pq}}(x).
+\]
+Thus $C_{11},C_{12},C_{21}$ have degree at most two and $C_{22}$ degree at most four. On $\mathcal T$, define the affine rank
+\[
+R(a,d)=\frac{91/120-Z(a,d)}{19/1200}.
+\]
+All one-step graph-closure inequalities, all target-local backward-propagation implications, rank nonnegativity, and the recurrent-node unit-decrease implications of Proposition~\ref{prop:target-local-ranked} were verified by SOS/Positivstellensatz programs. Every nontrivial block terminated with \texttt{OPTIMAL} and \texttt{FEASIBLE\_POINT}. The largest reported relaxation used order four and 8156 JuMP variables. On the four-visit witness, the recurrent relation is active on all three visit transitions and the rank drops are approximately $2.5840$, $2.1440$, and $1.7878$, respectively, all strictly above one. Hence the repeated-visit mechanism is non-vacuous.
+
+This ranked construction is not identified with the original PC-CC3 implication. To exercise PC-CC3 itself non-vacuously, we additionally use a dimension-scalable graph-indexed benchmark. Let $x=(z_1,z_2,u)\in[0,1]^2\times[-1,1]^{n-2}$, $n\ge3$, with the same two-node graph and the degree-two relational family
+\[
+C_{p,q}(x,y)=500\left[(y_q-x_p)\left(\frac65-y_q\right)-\frac1{20}(1-x_p)\right].
+\]
+For dimensions $n=4,8,16$, the benchmark has exactly four visits and satisfies the original PC-CC3 condition non-vacuously with fixed multipliers
+\[
+s^{(2)}=1,\qquad s^{(3,a)}=0,\qquad s^{(3,b)}=\frac{41}{20},
+\]
+and exact margin
+\[
+\frac{475}{3904}>0.
+\]
+A matched sparse one-node comparison violates PC-CC1 with exact residuals $-315$, $-240$, and $-52.5$ for the tested coordinate templates, while the two-node family succeeds.
+
+\begin{table}[t]
+\centering
+\caption{Verified repeated-visit results.}
+\label{tab:revised-results}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Case & Graph & Visits & Certificate & Verification\\
+\midrule
+Platoon & submitted two-node & $4$ & deg. $2/4$ + affine rank & strict SOS\\
+Scalable $n=4,8,16$ & two-node & $4$ & degree $2$ PC-CC & exact / SOS\\
+\bottomrule
+\end{tabular}
+\end{table}

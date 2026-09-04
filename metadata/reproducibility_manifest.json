@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "package_version": "final-reviewer-package",
+  "lead_author": "Reza Iraji",
+  "paper_authors": [
+    "Reza Iraji",
+    "Felipe Galarza-Jimenez",
+    "Majid Zamani"
+  ],
+  "intended_public_repository": "rezairaji60/PCCC",
+  "working_repository": "AC-Disaster-Consulting/Test",
+  "working_branch": "main",
+  "verified_results": {
+    "platoon": {
+      "positive_time_visits": 4,
+      "visit_times": [1, 2, 3, 4],
+      "initial_velocity_difference": [3.6, 3.8],
+      "finite_visit_velocity_difference": [3.2, 3.55],
+      "submitted_graph_unchanged": true,
+      "physical_plant_and_sets_unchanged": true,
+      "coordinate_equivalence_check": "ComplexExample/verify_normalized_model.jl",
+      "strict_ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl",
+      "certificate_degrees": {
+        "C11": 2,
+        "C12": 2,
+        "C21": 2,
+        "C22": 4,
+        "rank": 1
+      },
+      "rank_epsilon": "19/1200",
+      "reproduced_status_policy": "every nontrivial SOS block OPTIMAL/FEASIBLE_POINT",
+      "largest_sos_block": {
+        "putinar_order": 4,
+        "jump_variables": 8156,
+        "top_level_constraints": 12,
+        "final_reproduction_times_seconds": [0.209, 0.210]
+      },
+      "witness_rank_drops": [
+        2.58403853473683,
+        2.14404862004549,
+        1.78776782997151
+      ]
+    },
+    "scalable_original_pccc": {
+      "dimensions": [2, 4, 8, 16],
+      "visits": 4,
+      "certificate_degree": 2,
+      "nonzero_monomials": 5,
+      "original_pc_cc3_exact_margin": "475/3904"
+    },
+    "graph_indexed_original_pccc": {
+      "dimensions": [3, 4, 8, 16],
+      "visits": 4,
+      "certificate_degree": 2,
+      "four_distinct_relational_certificates": true,
+      "matched_sparse_one_node_pc_cc1_residuals": ["-315", "-240", "-105/2"]
+    }
+  },
+  "software_environment": {
+    "python": "3.12",
+    "julia": "1.12.6",
+    "tssos": "1.5.2",
+    "mosektools": "0.15.10",
+    "mosek_jl": "11.2.0",
+    "mosek_runtime": "11.2.0",
+    "solver_license": "licensed MOSEK installation required for the final platoon SOS verifier"
+  },
+  "hardware_environment": {
+    "operating_system": "Microsoft Windows 11 Pro 10.0.26200",
+    "architecture": "ARM64",
+    "cpu": "Snapdragon(R) X 12-core X1E80100 @ 3.40 GHz",
+    "physical_cores": 12,
+    "logical_processors": 12,
+    "physical_memory_bytes": 68171038720,
+    "physical_memory_gib_approx": 63.5
+  },
+  "acceptance_policy": [
+    "exact rational or symbolic verification for solver-free claims",
+    "termination status OPTIMAL for every reported numerical SOS block",
+    "primal status FEASIBLE_POINT for every reported numerical SOS block",
+    "SLOW_PROGRESS and ALMOST_OPTIMAL are never accepted as certificates"
+  ],
+  "scope_notes": [
+    "The platoon ranked recurrence condition is a separate sufficient persistence condition and is not relabeled as original PC-CC3.",
+    "Original PC-CC3 is exercised non-vacuously by the scalable and graph-indexed benchmarks.",
+    "The one-node comparison is limited to the documented matched sparse template class."
+  ]
+}

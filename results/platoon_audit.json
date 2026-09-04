@@ -1,0 +1,43 @@
+{
+  "forward_invariance": {
+    "mode1_velocity_difference_margin": 0.62,
+    "mode1_velocity_difference_margin_exact": "31/50",
+    "mode2_velocity_difference_margin": 0.68,
+    "mode2_velocity_difference_margin_exact": "17/25"
+  },
+  "four_visit_platoon": {
+    "fifth_step_velocity_difference": 3.6654133881372535,
+    "initial_state": [
+      2.4,
+      6.0
+    ],
+    "modes": "all mode 1",
+    "velocity_differences_t1_to_t5": [
+      3.2552,
+      3.2794996608,
+      3.399123884430082,
+      3.5359885383919654,
+      3.6654133881372535
+    ],
+    "visit_count": 4,
+    "visit_times": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "metadata": {
+    "generated_by": "scripts/platoon_audit.py",
+    "lead_author": "Reza Iraji",
+    "paper_authors": [
+      "Reza Iraji",
+      "Felipe Galarza-Jimenez",
+      "Majid Zamani"
+    ]
+  },
+  "verification_scope": {
+    "statement": "Behavioral quantities here use exact rational arithmetic; the ranked SOS certificate is verified separately by the licensed Julia verifier.",
+    "strict_ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl"
+  }
+}

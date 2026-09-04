@@ -1,0 +1,22 @@
+# Author: Reza Iraji
+name = "PCCC"
+uuid = "b4319ad4-64bc-4c79-9adb-6fe1c47db8f5"
+authors = ["Reza Iraji", "Felipe Galarza-Jimenez", "Majid Zamani"]
+version = "0.2.2"
+
+[deps]
+DynamicPolynomials = "7c1d4256-1411-5781-91ec-d7bc3513ac07"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+MosekTools = "1ec41992-ff65-5c91-ac43-2df89e9693a4"
+MultivariatePolynomials = "102ac46a-7ee4-5c85-9060-abc95bfdeaa3"
+TSSOS = "81648402-ffe6-11e9-2394-0de17a9afdad"
+
+# TSSOS is currently distributed from its upstream GitHub repository rather
+# than Julia's General registry. Julia 1.11+ reads this source declaration
+# when the PCCC environment is instantiated.
+[sources]
+TSSOS = {url = "https://github.com/wangjie212/TSSOS", rev = "v1.5.2"}
+
+[compat]
+julia = "1.11"
+TSSOS = "=1.5.2"
