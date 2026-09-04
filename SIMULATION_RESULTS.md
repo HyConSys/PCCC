@@ -7,7 +7,7 @@
 The physical benchmark is unchanged:
 
 - domain `0 <= x1 <= x2 <= 6`;
-- initial leaderâ€“follower velocity-difference band `[3.6,3.8]`;
+- initial leader-follower velocity-difference band `[3.6,3.8]`;
 - finite-visit band `[3.2,3.55]`;
 - submitted graph `(1,1,1)`, `(1,2,2)`, `(2,2,1)`, `(1,1,2)`.
 
@@ -21,7 +21,7 @@ t=4  3.5359885383919654
 t=5  3.6654133881372535
 ```
 
-so the finite-visit set is visited exactly at times 1â€“4 and exited at time 5.
+so the finite-visit set is visited exactly at times 1-4 and exited at time 5.
 
 Using normalized coordinates
 
@@ -59,7 +59,7 @@ Witness rank drops:
 1.78776782997151
 ```
 
-This is the paper's **graph-indexed reachabilityâ€“rank** computation, not original PC-CC3.
+This is the paper's **graph-indexed reachability-rank** computation, not original PC-CC3.
 
 ## Dimension-scalable original PC-CC benchmark
 
@@ -78,7 +78,7 @@ with
 C_0(a,b)=500\left[(b-a)\left(\frac65-b\right)-\frac1{20}(1-a)\right].
 ```
 
-The all-mode-2 witness visits exactly at times 5â€“8. PC-CC1 and PC-CC2 are verified by exact inequalities/factorizations. PC-CC3 uses `s2=1`, `s3a=0`, and `s3b=41/20`, with global minimizer
+The all-mode-2 witness visits exactly at times 5-8. PC-CC1 and PC-CC2 are verified by exact inequalities/factorizations. PC-CC3 uses `s2=1`, `s3a=0`, and `s3b=41/20`, with global minimizer
 
 ```text
 (0, 19/20, 2243/2440)
