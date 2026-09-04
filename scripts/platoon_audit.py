@@ -100,7 +100,7 @@ def build_report() -> dict[str, object]:
             "paper_authors": ["Reza Iraji", "Felipe Galarza-Jimenez", "Majid Zamani"],
         },
         "verification_scope": {
-            "strict_ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl",
+            "ranked_sos_verifier": "ComplexExample/verify_target_local_ranked_pccc.jl",
             "statement": "Behavioral quantities here use exact rational arithmetic; the ranked SOS certificate is verified separately by the licensed Julia verifier.",
         },
     }
